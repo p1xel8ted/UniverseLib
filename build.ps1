@@ -1,3 +1,3 @@
 dotnet build .\src\UniverseLib.sln -c Release_IL2CPP
 
-dotnet build .\src\UniverseLib.sln -c Release_Mono
+# dotnet build .\src\UniverseLib.sln -c Release_Mono

@@ -38,7 +38,7 @@ namespace UniverseLib.Input
             lastLockMode = Cursor.lockState;
             lastVisibleState = Cursor.visible;
 
-            InitPatches();
+            // InitPatches();
             UpdateCursorControl();
 
             try

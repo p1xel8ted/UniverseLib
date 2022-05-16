@@ -12,11 +12,15 @@ namespace UniverseLib
     {
         internal static void Init()
         {
-            Universe.Patch(typeof(Assembly),
-                nameof(Assembly.GetTypes),
-                MethodType.Normal,
-                new Type[0],
-                finalizer: AccessTools.Method(typeof(ReflectionPatches), nameof(Finalizer_Assembly_GetTypes)));
+            // Universe.Patch(typeof(Assembly),
+            //     nameof(Assembly.GetTypes),
+            //     MethodType.Normal,
+            //     new Type[0],
+            //     finalizer: AccessTools.Method(typeof(ReflectionPatches), nameof(Finalizer_Assembly_GetTypes)));
+            MethodInfo method = typeof(Assembly).GetMethod("GetTypes", new Type[0]);
+            PatchProcessor val = Universe.Harmony.CreateProcessor((MethodBase)method);
+            val.AddFinalizer(typeof(ReflectionPatches).GetMethod("Finalizer_Assembly_GetTypes"));
+            val.Patch();
         }
 
         public static Exception Finalizer_Assembly_GetTypes(Assembly __instance, Exception __exception, ref Type[] __result)

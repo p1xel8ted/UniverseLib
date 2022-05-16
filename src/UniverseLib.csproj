@@ -87,6 +87,10 @@
             <HintPath>..\lib\unhollowed\UnityEngine.IMGUIModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="UnhollowerBaseLib">
+            <HintPath>..\lib\unhollowed\UnhollowerBaseLib.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
     </ItemGroup>
     <ItemGroup>
         <EmbeddedResource Include="Resources\*" />

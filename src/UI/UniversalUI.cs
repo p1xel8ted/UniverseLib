@@ -14,6 +14,7 @@ using UniverseLib.Input;
 using UniverseLib.UI.Models;
 using UniverseLib.UI.Panels;
 using UniverseLib.Utility;
+using UnhollowerBaseLib;
 
 namespace UniverseLib.UI
 {
@@ -59,6 +60,7 @@ namespace UniverseLib.UI
         /// <summary>The maximum amount of vertices allowed in an InputField's UI mesh.</summary>
         public const int MAX_TEXT_VERTS = 65000;
 
+        private static Type TypeofAssetBundle => ReflectionUtility.GetTypeByName("UnityEngine.AssetBundle");
         /// <summary>
         /// Create and register a <see cref="UIBase"/> with the provided ID, and optional update method.
         /// </summary>
@@ -262,11 +264,27 @@ namespace UniverseLib.UI
 
         static void SetupAssetBundlePatches()
         {
-            Universe.Patch(
-                ReflectionUtility.GetTypeByName("UnityEngine.AssetBundle"), 
-                "UnloadAllAssetBundles", 
-                MethodType.Normal, 
-                prefix: AccessTools.Method(typeof(UniversalUI), nameof(Prefix_UnloadAllAssetBundles)));
+            // Universe.Patch(
+            //     ReflectionUtility.GetTypeByName("UnityEngine.AssetBundle"), 
+            //     "UnloadAllAssetBundles", 
+            //     MethodType.Normal, 
+            //     prefix: AccessTools.Method(typeof(UniversalUI), nameof(Prefix_UnloadAllAssetBundles)));
+            
+            try
+            {
+                MethodInfo method = TypeofAssetBundle.GetMethod("UnloadAllAssetBundles", AccessTools.all);
+                if ((object)method != null && !(UnhollowerUtils.GetIl2CppMethodInfoPointerFieldForGeneratedMethod((MethodBase)method) == null))
+                {
+                    PatchProcessor val = Universe.Harmony.CreateProcessor((MethodBase)method);
+                    HarmonyMethod val2 = new HarmonyMethod(typeof(UniversalUI).GetMethod("Prefix_UnloadAllAssetBundles", AccessTools.all));
+                    val.AddPrefix(val2);
+                    val.Patch();
+                }
+            }
+            catch (Exception arg)
+            {
+                Universe.LogWarning($"Exception setting up AssetBundle.UnloadAllAssetBundles patch: {arg}");
+            }
         }
 
         static bool Prefix_UnloadAllAssetBundles(bool unloadAllObjects)

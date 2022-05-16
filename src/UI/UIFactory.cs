@@ -652,6 +652,7 @@ namespace UniverseLib.UI
             scrollRect.verticalScrollbarSpacing = -3f;
 
             viewportObj.AddComponent<Mask>().showMaskGraphic = false;
+            viewportObj.GetComponent<Mask>().enabled = false;
 
             Image viewportImage = viewportObj.AddComponent<Image>();
             viewportImage.type = Image.Type.Sliced;
@@ -763,6 +764,7 @@ namespace UniverseLib.UI
             viewportObj.AddComponent<RectMask2D>();
             viewportObj.AddComponent<Image>().color = new(0.1f, 0.1f, 0.1f, 1);
             viewportObj.AddComponent<Mask>();
+            viewportObj.GetComponent<Mask>().enabled = false;
 
             content = CreateUIObject("Content", viewportObj);
             RectTransform contentRect = content.GetComponent<RectTransform>();
@@ -792,6 +794,7 @@ namespace UniverseLib.UI
                 false, false, true, true, 0, default, new Color(0.05f, 0.05f, 0.05f));
             SetLayoutElement(sliderContainer, minWidth: 25, flexibleWidth: 0, flexibleHeight: 9999);
             sliderContainer.AddComponent<Mask>().showMaskGraphic = false;
+            sliderContainer.GetComponent<Mask>().enabled = false;
 
             CreateSliderScrollbar(sliderContainer, out Slider slider);
 
@@ -818,6 +821,7 @@ namespace UniverseLib.UI
             GameObject mainObj = CreateUIObject("SliderScrollbar", parent, smallElementSize);
             mainObj.AddComponent<Mask>().showMaskGraphic = false;
             mainObj.AddComponent<Image>().color = new(0.1f, 0.1f, 0.1f, 1);
+            mainObj.GetComponent<Mask>().enabled = false;
 
             GameObject bgImageObj = CreateUIObject("Background", mainObj);
             GameObject handleSlideAreaObj = CreateUIObject("Handle Slide Area", mainObj);
@@ -828,6 +832,7 @@ namespace UniverseLib.UI
             bgImage.color = new Color(0.05f, 0.05f, 0.05f, 1.0f);
 
             bgImageObj.AddComponent<Mask>();
+            bgImageObj.GetComponent<Mask>().enabled = false;
 
             RectTransform bgRect = bgImageObj.GetComponent<RectTransform>();
             bgRect.pivot = new Vector2(0, 1);
@@ -900,6 +905,7 @@ namespace UniverseLib.UI
             viewportRect.offsetMax = new Vector2(-28, 0);
             viewportObj.AddComponent<Image>().color = new(0.1f, 0.1f, 0.1f, 1);
             viewportObj.AddComponent<Mask>().showMaskGraphic = false;
+            viewportObj.GetComponent<Mask>().enabled = false;
 
             content = CreateUIObject("Content", viewportObj);
             SetLayoutGroup<VerticalLayoutGroup>(content, true, false, true, true, childAlignment: TextAnchor.UpperLeft);
@@ -920,6 +926,7 @@ namespace UniverseLib.UI
             SetLayoutGroup<VerticalLayoutGroup>(scrollBarObj, false, true, true, true);
             scrollBarObj.AddComponent<Image>().color = new(0.1f, 0.1f, 0.1f, 1);
             scrollBarObj.AddComponent<Mask>().showMaskGraphic = false;
+            scrollBarObj.GetComponent<Mask>().enabled = false;
 
             GameObject hiddenBar = CreateScrollbar(scrollBarObj, "HiddenScrollviewScroller", out Scrollbar hiddenScrollbar);
             hiddenScrollbar.SetDirection(Scrollbar.Direction.BottomToTop, true);
@@ -982,6 +989,7 @@ namespace UniverseLib.UI
             viewportRect.pivot = new Vector2(0.0f, 1.0f);
             viewportObj.AddComponent<Image>().color = new(0.1f, 0.1f, 0.1f, 1);
             viewportObj.AddComponent<Mask>().showMaskGraphic = false;
+            viewportObj.GetComponent<Mask>().enabled = false;
 
             // Input Field
 
@@ -1015,6 +1023,7 @@ namespace UniverseLib.UI
             SetLayoutElement(scrollBarObj, minWidth: 25, flexibleWidth: 0, flexibleHeight: 9999);
             scrollBarObj.AddComponent<Image>().color = new(0.1f, 0.1f, 0.1f, 1);
             scrollBarObj.AddComponent<Mask>().showMaskGraphic = false;
+            scrollBarObj.GetComponent<Mask>().enabled = false;
 
             GameObject hiddenBar = CreateScrollbar(scrollBarObj, "HiddenScrollviewScroller", out Scrollbar hiddenScrollbar);
             hiddenScrollbar.SetDirection(Scrollbar.Direction.BottomToTop, true);

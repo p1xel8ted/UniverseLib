@@ -263,20 +263,25 @@ namespace UniverseLib.Input
 
         static void InitPatches()
         {
-            Universe.Patch(typeof(EventSystem),
-                new string[] { "current", "main" },
-                MethodType.Setter,
-                prefix: AccessTools.Method(typeof(EventSystemHelper), nameof(Prefix_EventSystem_set_current)));
+            // Universe.Patch(typeof(EventSystem),
+            //     new string[] { "current", "main" },
+            //     MethodType.Setter,
+            //     prefix: AccessTools.Method(typeof(EventSystemHelper), nameof(Prefix_EventSystem_set_current)));
 
-            Universe.Patch(typeof(EventSystem),
-                "SetSelectedGameObject",
-                MethodType.Normal,
-                new Type[][]
-                {
-                    new Type[] { typeof(GameObject), typeof(BaseEventData), typeof(int) },
-                    new Type[] { typeof(GameObject), typeof(BaseEventData) }
-                },
-                prefix: AccessTools.Method(typeof(EventSystemHelper), nameof(Prefix_EventSystem_SetSelectedGameObject)));
+            // Universe.Patch(typeof(EventSystem),
+            //     "SetSelectedGameObject",
+            //     MethodType.Normal,
+            //     new Type[][]
+            //     {
+            //         new Type[] { typeof(GameObject), typeof(BaseEventData), typeof(int) },
+            //         new Type[] { typeof(GameObject), typeof(BaseEventData) }
+            //     },
+            //     prefix: AccessTools.Method(typeof(EventSystemHelper), nameof(Prefix_EventSystem_SetSelectedGameObject)));
+
+            // MethodInfo method = typeof(Assembly).GetMethod("GetTypes", new Type[0]);
+            // PatchProcessor val = Universe.Harmony.CreateProcessor((MethodBase)method);
+            // val.AddFinalizer(typeof(ReflectionPatches).GetMethod("Finalizer_Assembly_GetTypes"));
+            // val.Patch();
         }
 
         // Prevent setting non-UniverseLib objects as selected when a menu is open
