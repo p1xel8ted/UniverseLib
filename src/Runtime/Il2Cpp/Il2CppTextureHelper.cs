@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnhollowerBaseLib;
 using UnityEngine;
+using UniverseLib.Utility;
 
 namespace UniverseLib.Runtime.Il2Cpp
 {
@@ -45,6 +46,15 @@ namespace UniverseLib.Runtime.Il2Cpp
             return arrayPtr == IntPtr.Zero ? null : new Il2CppStructArray<byte>(arrayPtr);
         }
 
+        public static Sprite ToSprite(Texture2D self)
+        {
+            var rect = new Rect(0, 0, self.width, self.height);
+            var pivot = Vector2.one * 0.5f;
+            var newSprite = Sprite.Create(self, rect, pivot);
+
+            return newSprite;
+        }
+
         protected internal override Sprite Internal_CreateSprite(Texture2D texture)
             => CreateSpriteImpl(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero, 100f, 0u, Vector4.zero);
 
@@ -53,10 +63,13 @@ namespace UniverseLib.Runtime.Il2Cpp
 
         internal static Sprite CreateSpriteImpl(Texture texture, Rect rect, Vector2 pivot, float pixelsPerUnit, uint extrude, Vector4 border)
         {
-            IntPtr spritePtr = ICallManager.GetICall<d_CreateSprite>("UnityEngine.Sprite::CreateSprite_Injected")
-                .Invoke(texture.Pointer, ref rect, ref pivot, pixelsPerUnit, extrude, 1, ref border, false);
+            // "UnityEngine.Sprite::CreateSprite_Injected"
+            //IntPtr spritePtr = ICallManager.GetICall<d_CreateSprite>("UnityEngine.Sprite::CreateSprite_Injected")
+            //    .Invoke(texture.Pointer, ref rect, ref pivot, pixelsPerUnit, extrude, 1, ref border, false);
 
-            return spritePtr == IntPtr.Zero ? null : new Sprite(spritePtr);
+
+            //return spritePtr == IntPtr.Zero ? null : new Sprite(spritePtr);
+            return ToSprite((Texture2D)texture);
         }
 
         internal override bool Internal_CanForceReadCubemaps => true;

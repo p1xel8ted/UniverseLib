@@ -203,36 +203,62 @@ namespace UniverseLib.Runtime
         }
 
         /// <summary>
+        /// 从Texture2D里复制一份对象出来, 主要用于不可读的对象
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static Texture2D CloneTex(object source)
+        {
+            Texture2D tex = (Texture2D)source.TryCast(typeof(Texture2D));
+            RenderTexture tmp = RenderTexture.GetTemporary(
+                     tex.width,
+                     tex.height,
+                     0,
+                     RenderTextureFormat.ARGB32);
+            Graphics.Blit(tex, tmp);
+            RenderTexture previous = RenderTexture.active;
+            RenderTexture.active = tmp;
+            Texture2D cloneTex = new Texture2D(tex.width, tex.height);
+            cloneTex.ReadPixels(new Rect(0, 0, tmp.width, tmp.height), 0, 0);
+            cloneTex.Apply();
+            RenderTexture.active = previous;
+            RenderTexture.ReleaseTemporary(tmp);
+            //Console.WriteLine("CloneTex: " + cloneTex.width + "x" + cloneTex.height);
+            return cloneTex;
+        }
+
+        /// <summary>
         /// Converts the <paramref name="origTex"/> into a readable <see cref="TextureFormat.ARGB32"/>-format <see cref="Texture2D"/>.
         /// <br /><br />Supports non-readable Textures.
         /// </summary>
         public static Texture2D CopyToARGB32(Texture2D origTex, Rect dimensions = default, int dstX = 0, int dstY = 0)
         {
-            if (dimensions == default && origTex.format == TextureFormat.ARGB32 && IsReadable(origTex))
-                return origTex;
+            return CloneTex(origTex);
+            //if (dimensions == default && origTex.format == TextureFormat.ARGB32 && IsReadable(origTex))
+            //    return origTex;
 
-            if (dimensions == default)
-                dimensions = new(0, 0, origTex.width, origTex.height);
+            //if (dimensions == default)
+            //    dimensions = new(0, 0, origTex.width, origTex.height);
 
-            FilterMode origFilter = origTex.filterMode;
-            RenderTexture origRenderTexture = RenderTexture.active;
+            //FilterMode origFilter = origTex.filterMode;
+            //RenderTexture origRenderTexture = RenderTexture.active;
 
-            origTex.filterMode = FilterMode.Point;
+            //origTex.filterMode = FilterMode.Point;
 
-            RenderTexture rt = RenderTexture.GetTemporary(origTex.width, origTex.height, 0, RenderTextureFormat.ARGB32);
-            rt.filterMode = FilterMode.Point;
-            RenderTexture.active = rt;
+            //RenderTexture rt = RenderTexture.GetTemporary(origTex.width, origTex.height, 0, RenderTextureFormat.ARGB32);
+            //rt.filterMode = FilterMode.Point;
+            //RenderTexture.active = rt;
 
-            Instance.Internal_Blit(origTex, rt);
+            //Instance.Internal_Blit(origTex, rt);
 
-            Texture2D newTex = Instance.Internal_NewTexture2D((int)dimensions.width, (int)dimensions.height);
-            newTex.ReadPixels(dimensions, dstX, dstY);
-            newTex.Apply(false, false);
+            //Texture2D newTex = Instance.Internal_NewTexture2D((int)dimensions.width, (int)dimensions.height);
+            //newTex.ReadPixels(dimensions, dstX, dstY);
+            //newTex.Apply(false, false);
 
-            RenderTexture.active = origRenderTexture;
-            origTex.filterMode = origFilter;
+            //RenderTexture.active = origRenderTexture;
+            //origTex.filterMode = origFilter;
 
-            return newTex;
+            //return newTex;
         }
 
         /// <summary>
